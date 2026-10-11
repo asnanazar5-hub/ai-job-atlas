@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}AI Job Atlas - explore AI careers around the world{% endblock %}
+
+{% block content %}
+<section class="hero" id="hero">
+  <canvas id="constellation" data-words='{{ skills|tojson }}' aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <h1>See where AI work is hiring, starting with your own country.</h1>
+    <p class="lead">Browse 30,000 AI job postings, upload your resume and let the atlas pull out your skills, then match you to roles near home first and the rest of the world after.</p>
+    <div class="hero-actions">
+      <a class="btn btn-sun" href="{{ url_for('finder') }}">Open the job finder</a>
+      <a class="btn btn-ghost" href="{{ url_for('finder') }}#resume">Upload my resume</a>
+    </div>
+    <p class="hero-hint">Move your mouse over the skill map. Each word is a skill employers ask for.</p>
+  </div>
+  <dl class="hero-stats">
+    <div><dt>Job postings</dt><dd>{{ hero.jobs }}</dd></div>
+    <div><dt>Countries</dt><dd>{{ hero.countries }}</dd></div>
+    <div><dt>Skills tracked</dt><dd>{{ hero.skills }}</dd></div>
+    <div><dt>Average salary</dt><dd>{{ hero.salary }}</dd></div>
+  </dl>
+</section>
+
+<section class="section about">
+  <div class="wrap about-in">
+    <h2 class="section-title">A map for anyone building a career in AI</h2>
+    <div class="about-text">
+      <p>AI Job Atlas brings thousands of real-looking job postings into one friendly place. Instead of scrolling endless lists, you tell it who you are, by typing a few details or dropping in your resume, and it reads your skills, your education and the country you call home.</p>
+      <p>Then it does the thoughtful part. Roles in your own country rise to the top, followed by opportunities across the world, each with a match score that shows exactly which of your skills the employer is asking for. Compare roles side by side, see what each country pays, and find the skills worth learning next.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <h2 class="section-title">Choose where to explore</h2>
+    <div class="tiles">
+      <a class="tile tile-big t-violet" href="{{ url_for('finder') }}">
+        <img src="{{ url_for('static', filename='img/finder.svg') }}" alt="" loading="lazy">
+        <div><h3>Job Finder</h3><p>Filter jobs, see your match score, and read every posting. Jobs in your country are listed first.</p></div>
+      </a>
+      <a class="tile t-aqua" href="{{ url_for('finder') }}#resume">
+        <img src="{{ url_for('static', filename='img/resume.svg') }}" alt="" loading="lazy">
+        <div><h3>Resume reader</h3><p>Upload a PDF or DOCX and see your skills, education and country extracted.</p></div>
+      </a>
+      <a class="tile t-sun" href="{{ url_for('countries') }}">
+        <img src="{{ url_for('static', filename='img/globe.svg') }}" alt="" loading="lazy">
+        <div><h3>Countries</h3><p>Compare 20 job markets by pay, remote work and top skills.</p></div>
+      </a>
+      <a class="tile tile-wide t-rose" href="{{ url_for('insights') }}">
+        <img src="{{ url_for('static', filename='img/insights.svg') }}" alt="" loading="lazy">
+        <div><h3>Insights</h3><p>Salary by experience, most wanted skills, industries and hiring trends, for one country or all.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap steps-wrap">
+    <div>
+      <h2 class="section-title">From resume to shortlist in three steps</h2>
+      <ol class="steps">
+        <li><h3>Tell us about you</h3><p>Type your details, or upload a resume and we read the skills, education, years of experience and country for you.</p></li>
+        <li><h3>Pick your country</h3><p>Jobs located in your country are ranked first. Everything else follows, so you never lose sight of global options.</p></li>
+        <li><h3>Compare and apply</h3><p>Each job shows a match score and which of your skills it uses. Open a posting for salary, deadline and requirements.</p></li>
+      </ol>
+    </div>
+    <img class="robot" src="{{ url_for('static', filename='img/robot.svg') }}" alt="A friendly robot analyst holding a chart" loading="lazy">
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">Most advertised roles</h2>
+    <div class="roles">
+      {% for r in roles %}
+      <a class="role" href="{{ url_for('finder') }}?role={{ r.job_title|urlencode }}">
+        <strong>{{ r.job_title }}</strong>
+        <span>{{ '{:,}'.format(r.jobs) }} openings</span>
+        <em>${{ '{:,}'.format(r.salary|int) }} average</em>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="roles-cta"><a class="btn btn-primary" href="{{ url_for('compare') }}">Compare roles side by side</a></p>
+  </div>
+</section>
+{% endblock %}

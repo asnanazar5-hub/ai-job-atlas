@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AI Job Atlas{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="page-{{ page }}">
+  <header class="nav">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="AI Job Atlas home">
+      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#14c8b4"/></linearGradient></defs>
+        <rect width="32" height="32" rx="9" fill="url(#lg)"/>
+        <circle cx="9" cy="21" r="2.6" fill="#fff"/><circle cx="16" cy="9" r="2.6" fill="#fff"/><circle cx="23" cy="20" r="2.6" fill="#fff"/>
+        <path d="M9 21 16 9l7 11" stroke="#fff" stroke-width="1.6" fill="none"/>
+      </svg>
+      <span>AI Job Atlas</span>
+    </a>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('home') }}" class="{{ 'active' if page == 'home' }}">Home</a>
+      <a href="{{ url_for('finder') }}" class="{{ 'active' if page == 'finder' }}">Job Finder</a>
+      <a href="{{ url_for('countries') }}" class="{{ 'active' if page == 'countries' }}">Countries</a>
+      <a href="{{ url_for('compare') }}" class="{{ 'active' if page == 'compare' }}">Role Compare</a>
+      <a href="{{ url_for('insights') }}" class="{{ 'active' if page == 'insights' }}">Insights</a>
+      <a href="{{ url_for('finder') }}#resume" class="btn btn-small">Upload resume</a>
+    </nav>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  {% if page != 'finder' %}
+  <footer class="footer">
+    <div class="footer-in">
+      <strong>AI Job Atlas</strong>
+      <span>Discover where AI careers are growing, what they pay and which skills open the door, with your own country always first.</span>
+      <nav>
+        <a href="{{ url_for('finder') }}">Job Finder</a>
+        <a href="{{ url_for('countries') }}">Countries</a>
+        <a href="{{ url_for('compare') }}">Role Compare</a>
+        <a href="{{ url_for('insights') }}">Insights</a>
+      </nav>
+    </div>
+  </footer>
+  {% endif %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

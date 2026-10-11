@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Role Compare - AI Job Atlas{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Put up to three roles side by side</h1>
+    <p class="lead dark">See which role pays more, asks for more experience, allows more remote work and needs which skills.</p>
+    <div class="cmp-pick">
+      <label class="field"><span>Role 1</span><select id="r1"></select></label>
+      <label class="field"><span>Role 2</span><select id="r2"></select></label>
+      <label class="field"><span>Role 3 (optional)</span><select id="r3"></select></label>
+      <label class="field"><span>Country</span><select id="rCountry"><option value="">All countries</option></select></label>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <p id="cmpMsg" class="msg" role="status"></p>
+    <div class="cmp-grid" id="cmpGrid"></div>
+  </div>
+</section>
+
+<script id="meta" type="application/json">{{ meta|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/compare.js') }}"></script>{% endblock %}

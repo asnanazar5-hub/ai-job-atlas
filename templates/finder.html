@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Job Finder - AI Job Atlas{% endblock %}
+
+{% block content %}
+<main class="workspace">
+  <div class="mobile-tabs" role="tablist">
+    <button class="is-active" data-pane="jobsPane" role="tab">Jobs</button>
+    <button data-pane="infoPane" role="tab">Resume</button>
+  </div>
+
+  <!-- LEFT: everything you choose + the jobs. Has its own scrollbar. -->
+  <section class="pane is-active" id="jobsPane" aria-label="Jobs">
+    <header class="pane-head">
+      <div class="head-row">
+        <h1>Jobs</h1>
+        <button type="button" class="btn btn-small btn-outline" id="clearJobs">Clear all</button>
+      </div>
+
+      <div class="filters">
+        <label class="field"><span>Name</span><input id="pName" type="text" placeholder="Your name"></label>
+        <label class="field"><span>Country you want to work in</span>
+          <select id="fCountry"><option value="">Any country</option></select>
+        </label>
+        <label class="field"><span>Your country</span>
+          <select id="fHome"><option value="">Choose</option></select>
+        </label>
+        <label class="field"><span>Job role (from the data)</span>
+          <select id="fRole"><option value="">Any role</option></select>
+        </label>
+        <label class="field"><span>Level</span>
+          <select id="fLevel"><option value="">All</option></select>
+        </label>
+        <label class="field"><span>Job type</span>
+          <select id="fType"><option value="">All</option></select>
+        </label>
+        <label class="field"><span>Work mode</span>
+          <select id="fRemote">
+            <option value="">All</option><option value="100">Remote</option>
+            <option value="50">Hybrid</option><option value="0">On-site</option>
+          </select>
+        </label>
+        <label class="field"><span>Industry</span>
+          <select id="fIndustry"><option value="">All</option></select>
+        </label>
+        <label class="field"><span>Sort by</span>
+          <select id="fSort">
+            <option value="match">Best match</option><option value="recent">Newest</option>
+            <option value="salary_desc">Salary, high to low</option><option value="salary_asc">Salary, low to high</option>
+          </select>
+        </label>
+      </div>
+
+      <details class="profile-box" open>
+        <summary>Experience, education and skills</summary>
+        <div class="two">
+          <label class="field"><span>Years of experience</span><input id="pYears" type="number" min="0" max="40" step="0.5"></label>
+          <label class="field"><span>Highest education</span>
+            <select id="pEdu"><option value="">Not set</option><option>Associate</option><option>Bachelor</option><option>Master</option><option>PhD</option></select>
+          </label>
+        </div>
+        <fieldset class="field">
+          <legend>Your skills <small id="skillCount"></small></legend>
+          <div class="skill-add">
+            <input id="skillInput" list="skillList" type="text" placeholder="Type a skill and press Enter" autocomplete="off">
+            <datalist id="skillList"></datalist>
+            <button type="button" class="btn btn-small btn-primary" id="skillAdd">Add</button>
+          </div>
+          <div id="skillChips" class="chips"></div>
+        </fieldset>
+      </details>
+    </header>
+
+    <div class="sticky-sum"><p id="summary" class="summary">Loading jobs...</p></div>
+    <div id="jobList" class="job-list"></div>
+    <div class="more-wrap"><button class="btn btn-outline" id="moreBtn" hidden>Load more jobs</button></div>
+  </section>
+
+  <!-- RIGHT: resume upload only. Has its own scrollbar. -->
+  <aside class="pane" id="infoPane" aria-label="Resume upload">
+    <header class="pane-head">
+      <div class="head-row">
+        <h2>Resume upload</h2>
+        <button type="button" class="btn btn-small btn-outline" id="clearResume">Clear &amp; next person</button>
+      </div>
+    </header>
+    <div class="pane-body" id="resume">
+      <label class="drop" id="drop" for="resumeFile">
+        <input id="resumeFile" type="file" accept=".pdf,.docx,.txt" hidden>
+        <img src="{{ url_for('static', filename='img/resume.svg') }}" alt="" width="150">
+        <strong>Drop your resume here</strong>
+        <span>or click to choose a PDF, DOCX or TXT file (max 8 MB)</span>
+      </label>
+      <p id="uploadMsg" class="msg" role="status"></p>
+      <div id="extracted"></div>
+    </div>
+  </aside>
+</main>
+
+<dialog id="jobDialog" class="dialog"></dialog>
+<div id="toast" class="toast" role="status"></div>
+
+<script id="meta" type="application/json">{{ meta|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/finder.js') }}"></script>{% endblock %}

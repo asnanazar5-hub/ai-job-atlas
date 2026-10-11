@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 Flask>=3.0
 pandas>=2.0
 pypdf>=4.0
 python-docx>=1.0
+=======
+Flask>=3.0,<4.0
+pandas>=2.0,<3.0
+pypdf>=4.0
+python-docx>=1.0
+gunicorn>=22.0
+>>>>>>> 8b84ab34b50d3e4738b47dd1e1ab01331c407e6b

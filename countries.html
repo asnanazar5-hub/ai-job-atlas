@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Countries - AI Job Atlas{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1>Twenty job markets, side by side</h1>
+    <p class="lead dark">Pick a country to see its jobs first in the finder, or open its insights.</p>
+    <div class="toolbar">
+      <label class="field grow"><span>Find a country</span><input id="cSearch" type="search" placeholder="Type a country name"></label>
+      <label class="field"><span>Sort by</span>
+        <select id="cSort">
+          <option value="jobs">Most jobs</option><option value="salary">Highest average salary</option>
+          <option value="remote">Most remote</option><option value="name">Name</option>
+        </select>
+      </label>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="country-grid" id="countryGrid">
+      {% for c in cards %}
+      <article class="country" data-name="{{ c.name }}" data-jobs="{{ c.jobs }}" data-salary="{{ c.avg_salary }}" data-remote="{{ c.remote_pct }}">
+        <div class="country-art" data-code="{{ c.code }}"><span class="flag">{{ c.flag }}</span></div>
+        <h3>{{ c.name }}</h3>
+        <dl>
+          <div><dt>Jobs</dt><dd>{{ '{:,}'.format(c.jobs) }}</dd></div>
+          <div><dt>Avg salary</dt><dd>${{ '{:,}'.format(c.avg_salary) }}</dd></div>
+          <div><dt>Fully remote</dt><dd>{{ c.remote_pct }}%</dd></div>
+        </dl>
+        <p>Top role: <strong>{{ c.top_title }}</strong><br>Top skill: <strong>{{ c.top_skill }}</strong></p>
+        <div class="country-actions">
+          <a class="btn btn-small btn-primary" href="{{ url_for('finder') }}?country={{ c.name|urlencode }}">See jobs</a>
+          <a class="btn btn-small btn-outline" href="{{ url_for('insights') }}?country={{ c.name|urlencode }}">Insights</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <p id="noCountry" class="msg" hidden>No country matches that search.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/countries.js') }}"></script>{% endblock %}

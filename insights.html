@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Insights - AI Job Atlas{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <h1 id="insTitle">Insights for all countries</h1>
+    <p class="lead dark">See what AI roles pay, which skills employers want most, and how hiring is moving month by month.</p>
+    <div class="toolbar">
+      <label class="field"><span>Country</span>
+        <select id="insCountry"><option value="">All countries</option></select>
+      </label>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="kpis" id="kpis"></div>
+    <div class="chart-grid">
+      <article class="chart-card"><h3>Most advertised roles</h3><div id="chTitles"></div></article>
+      <article class="chart-card"><h3>Average salary by experience level (USD)</h3><div id="chLevels"></div></article>
+      <article class="chart-card"><h3>Skills employers ask for most</h3><div id="chSkills"></div></article>
+      <article class="chart-card"><h3>Work mode</h3><div id="chModes" class="donut-wrap"></div></article>
+      <article class="chart-card"><h3>Average salary by education (USD)</h3><div id="chEdu"></div></article>
+      <article class="chart-card"><h3>Top industries hiring</h3><div id="chInd"></div></article>
+      <article class="chart-card wide"><h3>Job postings per month</h3><div id="chMonths"></div></article>
+      <article class="chart-card wide" id="countriesCard"><h3>Highest paying countries (USD)</h3><div id="chCountries"></div></article>
+    </div>
+  </div>
+</section>
+
+<script id="meta" type="application/json">{{ meta|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/insights.js') }}"></script>{% endblock %}
